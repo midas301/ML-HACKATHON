@@ -1,0 +1,9 @@
+{
+  "train_dir": "data/train",
+  "student_test_dir": "data/student_test",
+  "eval_dir": "data/evaluator_test",
+  "radius": 50.0,
+  "k": 8,
+  "label_max_dist": 50.0,
+  "seed": 42
+}
