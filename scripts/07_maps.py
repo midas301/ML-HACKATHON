@@ -40,7 +40,7 @@ for tid in list_trips(root):
     m.fit_bounds([[lo[1], lo[0]], [hi[1], hi[0]]])
     mid = trip.nodes_lonlat[trip.arcs].mean(1)
     inside = np.where((mid[:, 0] > lo[0]) & (mid[:, 0] < hi[0]) & (mid[:, 1] > lo[1]) & (mid[:, 1] < hi[1]))[0]
-    net = folium.FeatureGroup("Road network", show=False)
+    net = folium.FeatureGroup("Road network", show=True)
     for e in inside:
         a, b = trip.arcs[e]
         folium.PolyLine([(trip.nodes_lonlat[a, 1], trip.nodes_lonlat[a, 0]), (trip.nodes_lonlat[b, 1], trip.nodes_lonlat[b, 0])], color="#888888", weight=1, opacity=0.6).add_to(net)

@@ -1,0 +1,24 @@
+grid 5 0.5 0.9016 0.9067 0.9743
+grid 5 1.0 0.9016 0.9084 0.9749
+grid 5 2.0 0.9016 0.9077 0.975
+grid 10 0.5 0.9016 0.9084 0.9749
+grid 10 1.0 0.9016 0.9077 0.975
+grid 10 2.0 0.9016 0.908 0.9743
+grid 20 0.5 0.9016 0.9077 0.975
+grid 20 1.0 0.9016 0.908 0.9743
+grid 20 2.0 0.9016 0.9078 0.9737
+grid 40 0.5 0.9016 0.908 0.9743
+grid 40 1.0 0.9016 0.9078 0.9737
+grid 40 2.0 0.9016 0.9075 0.973
+grid 80 0.5 0.9016 0.9078 0.9737
+grid 80 1.0 0.9016 0.9075 0.973
+grid 80 2.0 0.9016 0.9073 0.9723
+best {'beta': 5.0, 'w_emission': 1.0, 'vmax': 50.0, 'back_tol': 15.0, 'break_penalty': 30.0, 'tuned_on': 'out-of-fold LightGBM_dir_tuned probabilities, 40 train trips', 'train_oof_hmm_top1': 0.9083613719680611}
+test LogReg {'clf_top1': np.float64(0.8781), 'clf_continuity': np.float64(0.9348), 'clf_seq_precision': np.float64(0.8812), 'clf_seq_recall': np.float64(0.8893), 'clf_seq_f1': np.float64(0.8825), 'hmm_top1': np.float64(0.9155), 'hmm_continuity': np.float64(0.9762), 'hmm_seq_precision': np.float64(0.9551), 'hmm_seq_recall': np.float64(0.9014), 'hmm_seq_f1': np.float64(0.9257), 'breaks': 32, 'decode_seconds': 1.4704}
+test KNN {'clf_top1': np.float64(0.871), 'clf_continuity': np.float64(0.9276), 'clf_seq_precision': np.float64(0.8568), 'clf_seq_recall': np.float64(0.8853), 'clf_seq_f1': np.float64(0.8682), 'hmm_top1': np.float64(0.9046), 'hmm_continuity': np.float64(0.9767), 'hmm_seq_precision': np.float64(0.9454), 'hmm_seq_recall': np.float64(0.9017), 'hmm_seq_f1': np.float64(0.9213), 'breaks': 32, 'decode_seconds': 0.7742}
+test RandomForest {'clf_top1': np.float64(0.8872), 'clf_continuity': np.float64(0.9362), 'clf_seq_precision': np.float64(0.8787), 'clf_seq_recall': np.float64(0.8938), 'clf_seq_f1': np.float64(0.8835), 'hmm_top1': np.float64(0.9171), 'hmm_continuity': np.float64(0.978), 'hmm_seq_precision': np.float64(0.9545), 'hmm_seq_recall': np.float64(0.9033), 'hmm_seq_f1': np.float64(0.9264), 'breaks': 32, 'decode_seconds': 0.9681}
+test MLP {'clf_top1': np.float64(0.8765), 'clf_continuity': np.float64(0.9369), 'clf_seq_precision': np.float64(0.8814), 'clf_seq_recall': np.float64(0.8944), 'clf_seq_f1': np.float64(0.8857), 'hmm_top1': np.float64(0.914), 'hmm_continuity': np.float64(0.9776), 'hmm_seq_precision': np.float64(0.9591), 'hmm_seq_recall': np.float64(0.903), 'hmm_seq_f1': np.float64(0.9287), 'breaks': 32, 'decode_seconds': 0.8378}
+test LightGBM {'clf_top1': np.float64(0.8879), 'clf_continuity': np.float64(0.9362), 'clf_seq_precision': np.float64(0.8798), 'clf_seq_recall': np.float64(0.8937), 'clf_seq_f1': np.float64(0.884), 'hmm_top1': np.float64(0.919), 'hmm_continuity': np.float64(0.9777), 'hmm_seq_precision': np.float64(0.9568), 'hmm_seq_recall': np.float64(0.904), 'hmm_seq_f1': np.float64(0.928), 'breaks': 32, 'decode_seconds': 0.7647}
+test LightGBM_tuned22 {'clf_top1': np.float64(0.8879), 'clf_continuity': np.float64(0.9401), 'clf_seq_precision': np.float64(0.886), 'clf_seq_recall': np.float64(0.8935), 'clf_seq_f1': np.float64(0.8875), 'hmm_top1': np.float64(0.9173), 'hmm_continuity': np.float64(0.9777), 'hmm_seq_precision': np.float64(0.9562), 'hmm_seq_recall': np.float64(0.9031), 'hmm_seq_f1': np.float64(0.9272), 'breaks': 32, 'decode_seconds': 0.7502}
+test LightGBM_dir {'clf_top1': np.float64(0.9084), 'clf_continuity': np.float64(0.9428), 'clf_seq_precision': np.float64(0.9034), 'clf_seq_recall': np.float64(0.8965), 'clf_seq_f1': np.float64(0.8984), 'hmm_top1': np.float64(0.9374), 'hmm_continuity': np.float64(0.9775), 'hmm_seq_precision': np.float64(0.9661), 'hmm_seq_recall': np.float64(0.9031), 'hmm_seq_f1': np.float64(0.932), 'breaks': 32, 'decode_seconds': 0.7707}
+test LightGBM_dir_tuned {'clf_top1': np.float64(0.9134), 'clf_continuity': np.float64(0.9411), 'clf_seq_precision': np.float64(0.9101), 'clf_seq_recall': np.float64(0.897), 'clf_seq_f1': np.float64(0.902), 'hmm_top1': np.float64(0.9379), 'hmm_continuity': np.float64(0.9777), 'hmm_seq_precision': np.float64(0.9678), 'hmm_seq_recall': np.float64(0.9037), 'hmm_seq_f1': np.float64(0.9331), 'breaks': 32, 'decode_seconds': 0.7483}

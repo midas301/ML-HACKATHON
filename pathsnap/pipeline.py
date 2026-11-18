@@ -4,6 +4,7 @@ import numpy as np
 from .data import Trip, list_trips
 from .labels import align_route
 from .candidates import ArcIndex, generate, build_features
+from .direction import direction_features, ALL_FEATURES, N_BASE
 
 
 def process_trip(root, trip_id, cfg, with_labels):
@@ -11,6 +12,7 @@ def process_trip(root, trip_id, cfg, with_labels):
     index = ArcIndex(trip)
     cands = generate(trip, index, radius=cfg["radius"], k=cfg["k"])
     X, pid, aid = build_features(trip, cands, radius=cfg["radius"])
+    X = np.hstack([X, direction_features(trip, pid, aid)])
     out = {"trip_id": trip_id, "X": X, "pid": pid, "aid": aid, "n_points": len(trip.xy),
            "dist": X[:, 0].copy(), "proj_t": X[:, 9].copy()}
     if with_labels and trip.route is not None:
@@ -31,7 +33,14 @@ def cached(partition, root, cfg):
         p = os.path.join(cfg["cache_dir"], f"{partition}_{tid}.pkl")
         if os.path.exists(p):
             with open(p, "rb") as f:
-                res.append(pickle.load(f))
+                d = pickle.load(f)
+            if d["X"].shape[1] == N_BASE:
+                d["X"] = np.hstack([d["X"], direction_features(Trip(root, tid), d["pid"], d["aid"])])
+                with open(p, "wb") as f:
+                    pickle.dump(d, f)
+            if d["X"].shape[1] != len(ALL_FEATURES):
+                raise ValueError(f"stale cache {p}: delete artifacts/cache and rerun")
+            res.append(d)
             continue
         _, out = process_trip(root, tid, cfg, True)
         with open(p, "wb") as f:

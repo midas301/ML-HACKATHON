@@ -2,139 +2,102 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>PathSnap Evaluator</title>
+<title>PathSnap evaluator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #f4f5f7; color: #1d2433; }
-  header { padding: 12px 20px; background: #1d2433; color: #fff; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-  header h1 { font-size: 18px; margin: 0; }
-  header input { width: 260px; padding: 6px 8px; border-radius: 4px; border: none; }
-  header button { padding: 6px 12px; border: none; border-radius: 4px; background: #4f8cff; color: #fff; cursor: pointer; }
-  #status { font-size: 13px; opacity: .85; }
-  main { display: grid; grid-template-columns: 300px 1fr; height: calc(100vh - 56px); }
-  aside { overflow-y: auto; padding: 14px; border-right: 1px solid #dde1e7; background: #fff; }
-  aside h2 { font-size: 14px; margin: 6px 0 10px; text-transform: uppercase; letter-spacing: .05em; color: #5b6475; }
-  .trip { display: block; width: 100%; text-align: left; padding: 9px 10px; margin-bottom: 6px; border: 1px solid #dde1e7; border-radius: 6px; background: #fafbfc; cursor: pointer; font-size: 14px; }
-  .trip:hover { background: #eef3ff; }
-  .trip.active { background: #4f8cff; color: #fff; border-color: #4f8cff; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
-  td { padding: 4px 2px; border-bottom: 1px solid #eef0f3; }
-  td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
-  #map { height: 100%; }
-  .legend { background: #fff; padding: 8px 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.2); font-size: 13px; line-height: 1.6; }
-  .sw { display: inline-block; width: 18px; height: 4px; margin-right: 6px; vertical-align: middle; }
-  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 11px 0 5px; vertical-align: middle; }
-</style>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>PathSnap evaluator</h1>
-  <label>API <input id="api" value="http://127.0.0.1:8000"></label>
-  <button id="connect">Load trips</button>
-  <span id="status">Not connected</span>
+<header class="bar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 26 C11 22 9 14 16 12 S24 6 27 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="5" cy="26" r="3"/><circle cx="27" cy="5" r="3"/></svg>
+    <div>
+      <h1>PathSnap evaluator</h1>
+      <p id="model-line" class="sub">Connect to the PathSnap API to begin</p>
+    </div>
+  </div>
+  <form id="connect-form" class="connect">
+    <label for="api">API address</label>
+    <input id="api" value="http://127.0.0.1:8000" spellcheck="false" autocomplete="off">
+    <button type="submit" id="connect">Connect</button>
+    <span id="conn" class="conn" role="status" aria-live="polite"><span class="dot"></span><span id="conn-text">Not connected</span></span>
+  </form>
 </header>
-<main>
-  <aside>
-    <h2>Evaluation trips</h2>
-    <div id="trips"></div>
-    <h2 style="margin-top:18px">Results</h2>
-    <div id="results"><em>Select a trip.</em></div>
+
+<main class="layout">
+  <nav class="trips" aria-label="Evaluation trips">
+    <div class="pane-head">
+      <h2>Trips</h2>
+      <button id="run-all" class="ghost" disabled>Evaluate all</button>
+    </div>
+    <p id="trips-hint" class="hint">Connect to load the evaluation trips.</p>
+    <ol id="trip-list" class="plates"></ol>
+    <section class="summary" aria-labelledby="sum-h">
+      <div class="pane-head">
+        <h2 id="sum-h">Run summary</h2>
+        <button id="download" class="ghost" disabled>Download CSV</button>
+      </div>
+      <table id="sum-table">
+        <thead><tr><th scope="col">Trip</th><th scope="col">Top-1</th><th scope="col">Continuity</th><th scope="col">Route F1</th></tr></thead>
+        <tbody><tr class="empty"><td colspan="4">No trips evaluated yet</td></tr></tbody>
+        <tfoot></tfoot>
+      </table>
+    </section>
+  </nav>
+
+  <section class="mapwrap" aria-label="Map">
+    <div id="map"></div>
+    <div id="map-note" class="map-note" hidden>Map background unavailable without internet. GPS points and the predicted route are still drawn.</div>
+    <div class="map-tools">
+      <fieldset>
+        <legend>Show</legend>
+        <label><input type="checkbox" id="lyr-gps" checked><span class="key key-gps"></span>Raw GPS</label>
+        <label><input type="checkbox" id="lyr-route" checked><span class="key key-route"></span>Predicted route</label>
+        <label><input type="checkbox" id="lyr-snap"><span class="key key-snap"></span>Snapped points</label>
+      </fieldset>
+      <fieldset>
+        <legend>Background</legend>
+        <label><input type="radio" name="base" value="streets" checked>Streets</label>
+        <label><input type="radio" name="base" value="light">Light</label>
+        <label><input type="radio" name="base" value="none">None</label>
+      </fieldset>
+    </div>
+    <div id="busy" class="busy" hidden><span class="spinner" aria-hidden="true"></span><span id="busy-text">Matching trip</span></div>
+  </section>
+
+  <aside class="results" aria-labelledby="res-h" aria-live="polite">
+    <div class="pane-head"><h2 id="res-h">Results</h2></div>
+    <div id="res-empty" class="hint">Pick a trip to see how its GPS track was matched to the road network. Scores are computed on the server against the reference route, which is never sent to this page.</div>
+    <div id="res" hidden>
+      <div class="trip-title">
+        <span id="res-plate" class="plate small"></span>
+        <div>
+          <p id="res-name" class="res-name"></p>
+          <p id="res-meta" class="sub"></p>
+        </div>
+      </div>
+
+      <h3>Point accuracy</h3>
+      <p class="explain">Share of GPS points assigned to the correct road segment.</p>
+      <div id="bars-acc" class="bars"></div>
+
+      <h3>Route continuity</h3>
+      <p class="explain">Share of consecutive points whose segments connect on the road network.</p>
+      <div id="bars-cont" class="bars"></div>
+
+      <h3>Reconstructed route</h3>
+      <dl id="route-stats" class="stats"></dl>
+
+      <h3>Processing time</h3>
+      <div id="time-bar" class="timebar" role="img"></div>
+      <ul id="time-legend" class="time-legend"></ul>
+    </div>
   </aside>
-  <div id="map"></div>
 </main>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const map = L.map("map").setView([52.95, -1.15], 12);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }).addTo(map);
-const gpsLayer = L.layerGroup().addTo(map);
-const routeLayer = L.layerGroup().addTo(map);
-const snapLayer = L.layerGroup();
-L.control.layers(null, { "Raw GPS": gpsLayer, "Predicted route": routeLayer, "Snapped points": snapLayer }).addTo(map);
-const legend = L.control({ position: "bottomright" });
-legend.onAdd = () => {
-  const d = L.DomUtil.create("div", "legend");
-  d.innerHTML = '<div><span class="dot" style="background:#1f6feb"></span>Raw GPS</div>' +
-    '<div><span class="sw" style="background:#e5383b"></span>Predicted route (HMM)</div>' +
-    '<div><span class="dot" style="background:#2a9d8f"></span>Snapped points</div>';
-  return d;
-};
-legend.addTo(map);
 
-const $ = (id) => document.getElementById(id);
-const api = () => $("api").value.replace(/\/$/, "");
-const fmt = (v) => v === null || v === undefined ? "n/a" : (typeof v === "number" ? (Number.isInteger(v) ? v : v.toFixed(4)) : v);
-
-async function loadTrips() {
-  $("status").textContent = "Connecting...";
-  try {
-    const r = await fetch(api() + "/trips");
-    if (!r.ok) throw new Error(await r.text());
-    const data = await r.json();
-    $("trips").innerHTML = "";
-    data.trips.forEach((t) => {
-      const b = document.createElement("button");
-      b.className = "trip"; b.textContent = "Trip " + t; b.dataset.id = t;
-      b.onclick = () => predict(t, b);
-      $("trips").appendChild(b);
-    });
-    $("status").textContent = `Connected: ${data.trips.length} trips`;
-  } catch (e) {
-    $("status").textContent = "Error: " + e.message;
-  }
-}
-
-async function predict(id, btn) {
-  document.querySelectorAll(".trip").forEach((b) => b.classList.remove("active"));
-  btn.classList.add("active");
-  $("results").innerHTML = "<em>Running pipeline on server...</em>";
-  $("status").textContent = `POST /predict ${id}`;
-  try {
-    const r = await fetch(api() + "/predict", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ trip_id: id }) });
-    if (!r.ok) throw new Error(await r.text());
-    const d = await r.json();
-    draw(d);
-    $("status").textContent = `Trip ${id} done in ${d.timings_s.total_inference_s}s`;
-  } catch (e) {
-    $("results").innerHTML = "<b>Error:</b> " + e.message;
-    $("status").textContent = "Error";
-  }
-}
-
-function draw(d) {
-  gpsLayer.clearLayers(); routeLayer.clearLayers(); snapLayer.clearLayers();
-  const step = Math.max(1, Math.floor(d.gps.length / 1500));
-  d.gps.forEach((p, i) => { if (i % step === 0) L.circleMarker(p, { radius: 2, color: "#1f6feb", weight: 1, fillOpacity: 0.8 }).addTo(gpsLayer); });
-  d.snapped_points.forEach((p, i) => { if (p && i % step === 0) L.circleMarker(p, { radius: 2, color: "#2a9d8f", weight: 1, fillOpacity: 0.9 }).addTo(snapLayer); });
-  const line = L.polyline(d.predicted_route, { color: "#e5383b", weight: 4, opacity: 0.85 }).addTo(routeLayer);
-  L.marker(d.gps[0]).bindPopup("Start").addTo(gpsLayer);
-  L.marker(d.gps[d.gps.length - 1]).bindPopup("End").addTo(gpsLayer);
-  map.fitBounds(L.latLngBounds(d.gps).extend(line.getBounds()), { padding: [20, 20] });
-  const m = d.metrics || {};
-  const rows = [
-    ["GPS points", d.n_points],
-    ["Scored points", m.scored_points],
-    ["Top-1 accuracy (HMM)", m.hmm_top1_accuracy],
-    ["Top-1 accuracy (classifier only)", m.clf_top1_accuracy],
-    ["Route continuity (HMM)", m.hmm_route_continuity],
-    ["Route continuity (classifier only)", m.clf_route_continuity],
-    ["Route arc precision (HMM)", m.hmm_route_precision],
-    ["Route arc recall (HMM)", m.hmm_route_recall],
-    ["Route arc F1 (HMM)", m.hmm_route_f1],
-    ["Route length recall", m.route_length_overlap_recall],
-    ["Route length precision", m.route_length_overlap_precision],
-    ["Candidate miss rate", m.candidate_miss_rate],
-    ["Viterbi breaks", d.viterbi_breaks],
-    ["Predicted route arcs", d.predicted_route_arcs.length],
-    ["Inference time (s)", d.timings_s.total_inference_s],
-  ];
-  $("results").innerHTML = "<table>" + rows.map(([k, v]) => `<tr><td>${k}</td><td>${fmt(v)}</td></tr>`).join("") + "</table>";
-}
-
-$("connect").onclick = loadTrips;
-const q = new URLSearchParams(location.search).get("api");
-if (q) $("api").value = q;
-</script>
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

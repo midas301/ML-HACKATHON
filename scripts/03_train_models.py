@@ -16,6 +16,9 @@ from pathsnap.models import REGISTRY, SEED
 cfg = config.load()
 train = cached("train", cfg["train_dir"], cfg)
 test = cached("student_test", cfg["student_test_dir"], cfg)
+from pathsnap.direction import N_BASE
+for _d in train + test:
+    _d["X"] = _d["X"][:, :N_BASE]
 only = sys.argv[1:] or list(REGISTRY)
 rng = np.random.default_rng(SEED)
 out_dir = cfg["results_dir"]

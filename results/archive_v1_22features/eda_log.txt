@@ -1,0 +1,108 @@
+train 00000001
+train 00000002
+train 00000003
+train 00000004
+train 00000005
+train 00000006
+train 00000008
+train 00000010
+train 00000011
+train 00000012
+train 00000013
+train 00000014
+train 00000016
+train 00000018
+train 00000019
+train 00000020
+train 00000021
+train 00000022
+train 00000024
+train 00000025
+train 00000026
+train 00000027
+train 00000028
+train 00000029
+train 00000031
+train 00000032
+train 00000033
+train 00000034
+train 00000035
+train 00000036
+train 00000037
+train 00000038
+train 00000039
+train 00000041
+train 00000042
+train 00000043
+train 00000044
+train 00000045
+train 00000046
+train 00000047
+train 00000048
+train 00000050
+train 00000051
+train 00000053
+train 00000054
+train 00000055
+train 00000057
+train 00000058
+train 00000060
+train 00000061
+train 00000062
+train 00000063
+train 00000064
+train 00000066
+train 00000068
+train 00000069
+train 00000070
+train 00000071
+train 00000072
+train 00000074
+train 00000075
+train 00000078
+train 00000079
+train 00000080
+train 00000081
+train 00000082
+train 00000083
+train 00000084
+train 00000085
+train 00000086
+train 00000088
+train 00000089
+train 00000090
+train 00000092
+train 00000093
+train 00000095
+train 00000096
+train 00000097
+train 00000098
+train 00000099
+student_test 00000000
+student_test 00000007
+student_test 00000009
+student_test 00000040
+student_test 00000052
+student_test 00000056
+student_test 00000065
+student_test 00000076
+student_test 00000077
+student_test 00000091
+                                 0           1
+partition             student_test       train
+trips                           10          80
+gps_points                   19160      208417
+mean_points                 1916.0   2605.2125
+nan_values                       0           0
+dup_ts                           0           0
+mean_dt1                   0.98199    0.938296
+max_gap                      210.0    153064.0
+trips_with_gap_gt5               2          45
+mean_nodes                  9068.9  24168.5625
+mean_arcs                  18504.1     48461.3
+isolated_nodes                   0           0
+mean_weak_components          22.7     39.0125
+route_connected           0.999732    0.999346
+far_from_route            0.000682    0.024864
+/usr/local/lib/python3.13/site-packages/folium/raster_layers.py:129: UserWarning: CartoDB tiles now require an API key. Please provide one to continue using the tiles. You can request the key at https://carto.com/basemaps/apikey/.
+  tiles = tiles.build_url(fill_subdomain=False, scale_factor="{r}")  # type: ignore

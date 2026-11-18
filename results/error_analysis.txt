@@ -1,0 +1,25 @@
+
+classifier+HMM top-1 by GPS speed:
+                  points   top1
+speed band (m/s)               
+<0.5 stopped         163  0.663
+0.5-2               1542  0.743
+2-5                 2666  0.816
+5-10                3637  0.950
+>10                11125  0.994
+
+classifier: 1657 wrong of 19133 points -> top-1 0.9134
+  same road, opposite direction                      594   35.8% of errors   3.10% of points
+  neighbouring arc (shares a junction)               447   27.0% of errors   2.34% of points
+  different road                                     299   18.0% of errors   1.56% of points
+  neighbouring arc (shares a junction) on the route   253   15.3% of errors   1.32% of points
+  another arc of the true route                       64    3.9% of errors   0.33% of points
+  median length of the true arc at error points: 41.9 m (all arcs median ~25 m)
+
+classifier+HMM: 1188 wrong of 19133 points -> top-1 0.9379
+  same road, opposite direction                      604   50.8% of errors   3.16% of points
+  neighbouring arc (shares a junction)               227   19.1% of errors   1.19% of points
+  neighbouring arc (shares a junction) on the route   213   17.9% of errors   1.11% of points
+  different road                                     130   10.9% of errors   0.68% of points
+  another arc of the true route                       14    1.2% of errors   0.07% of points
+  median length of the true arc at error points: 41.5 m (all arcs median ~25 m)

@@ -1,0 +1,17 @@
+LightGBM_dir fold 0 0.9315
+LightGBM_dir fold 1 0.9459
+LightGBM_dir fold 2 0.8911
+LightGBM_dir fold 3 0.8898
+LightGBM_dir fold 4 0.9321
+SUMMARY {"model": "LightGBM + direction features (untuned)", "family": "Boosting", "config": "300 trees, lr=0.05, 31 leaves, 29 features", "n_features": 29, "cv_top1_mean": 0.9181, "cv_top1_std": 0.0259, "cv_macro_f1_mean": 0.9531, "cv_macro_f1_std": 0.0154, "cv_log_loss_mean": 0.0781, "train_top1": 0.9514, "train_macro_f1": 0.972, "train_log_loss": 0.0494, "test_top1": 0.9084, "test_macro_f1": 0.9462, "test_macro_precision": 0.9457, "test_macro_recall": 0.9467, "test_macro_f1_at_0.5": 0.9413, "test_accuracy_at_0.5": 0.9683, "test_log_loss": 0.0815, "test_continuity": 0.9428, "test_seq_f1": 0.8984, "train_seconds": 16.5837, "inference_seconds": 0.7379, "inference_ms_per_1k_obs": 38.5148}
+LightGBM_dir_tuned fold 0 0.9362
+LightGBM_dir_tuned fold 1 0.9484
+LightGBM_dir_tuned fold 2 0.8956
+LightGBM_dir_tuned fold 3 0.8892
+LightGBM_dir_tuned fold 4 0.9336
+SUMMARY {"model": "LightGBM + direction features (tuned, final)", "family": "Boosting", "config": "Optuna best params, 29 features", "n_features": 29, "cv_top1_mean": 0.9206, "cv_top1_std": 0.0264, "cv_macro_f1_mean": 0.9546, "cv_macro_f1_std": 0.0158, "cv_log_loss_mean": 0.0747, "train_top1": 0.9598, "train_macro_f1": 0.977, "train_log_loss": 0.0435, "test_top1": 0.9134, "test_macro_f1": 0.9491, "test_macro_precision": 0.9486, "test_macro_recall": 0.9497, "test_macro_f1_at_0.5": 0.9475, "test_accuracy_at_0.5": 0.9716, "test_log_loss": 0.0764, "test_continuity": 0.9411, "test_seq_f1": 0.902, "train_seconds": 44.8395, "inference_seconds": 3.035, "inference_ms_per_1k_obs": 158.4033}
+/usr/local/lib/python3.13/site-packages/lightgbm/sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.
+  eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)
+/usr/local/lib/python3.13/site-packages/lightgbm/sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.
+  eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)
+histories done

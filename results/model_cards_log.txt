@@ -1,0 +1,8 @@
+card LogReg
+card KNN
+card RandomForest
+card MLP
+card LightGBM
+card LightGBM_tuned22
+card LightGBM_dir
+card LightGBM_dir_tuned

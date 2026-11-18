@@ -18,6 +18,9 @@ from pathsnap.models import LGBM_DEFAULT, SEED
 
 cfg = config.load()
 train = cached("train", cfg["train_dir"], cfg)
+from pathsnap.direction import N_BASE
+for _d in train:
+    _d["X"] = _d["X"][:, :N_BASE]
 rng = np.random.default_rng(SEED)
 va_idx = set(rng.choice(len(train), 16, replace=False).tolist())
 

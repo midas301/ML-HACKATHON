@@ -16,13 +16,13 @@ from pathsnap.pipeline import cached
 from pathsnap.data import Trip
 from pathsnap.hmm import RoadGraph, decode
 from pathsnap.metrics import top1_choice, continuity, sequence_scores
-from pathsnap.models import REGISTRY
+from pathsnap.registry_view import MODEL_KEYS, DISPLAY, FINAL_KEY
 
 cfg = config.load()
 res_dir, fig_dir = cfg["results_dir"], cfg["figures_dir"]
 train = cached("train", cfg["train_dir"], cfg)
 test = cached("student_test", cfg["student_test_dir"], cfg)
-oof = joblib.load(os.path.join(cfg["artifacts_dir"], "oof_lgbm_tuned.joblib"))
+oof = joblib.load(os.path.join(cfg["artifacts_dir"], f"oof_{FINAL_KEY}.joblib"))
 _trips = {}
 
 
@@ -75,7 +75,7 @@ grid = pd.DataFrame(grid)
 grid.to_csv(os.path.join(res_dir, "hmm_grid_train_oof.csv"), index=False)
 b = grid.sort_values("hmm_top1", ascending=False).iloc[0]
 best = {"beta": float(b.beta), "w_emission": float(b.w_emission), "vmax": 50.0, "back_tol": 15.0, "break_penalty": 30.0,
-        "tuned_on": f"out-of-fold LightGBM probabilities, {len(tune)} train trips", "train_oof_hmm_top1": float(b.hmm_top1)}
+        "tuned_on": f"out-of-fold {FINAL_KEY} probabilities, {len(tune)} train trips", "train_oof_hmm_top1": float(b.hmm_top1)}
 with open(os.path.join(cfg["artifacts_dir"], "hmm_config.json"), "w") as f:
     json.dump(best, f, indent=2)
 print("best", best, flush=True)
@@ -91,7 +91,7 @@ plt.colorbar(); plt.tight_layout(); plt.savefig(os.path.join(fig_dir, "hmm_grid.
 
 lens = [len(d["y"]) for d in test]
 splits = np.cumsum(lens)[:-1]
-models = [m for m in list(REGISTRY) + ["LightGBM_tuned"] if os.path.exists(os.path.join(res_dir, f"probs_{m}.npy"))]
+models = [m for m in MODEL_KEYS if os.path.exists(os.path.join(res_dir, f"probs_{m}.npy"))]
 comp = []
 for name in models:
     probs = np.split(np.load(os.path.join(res_dir, f"probs_{name}.npy")), splits)
@@ -102,16 +102,16 @@ for name in models:
 comp = pd.DataFrame(comp)
 comp.to_csv(os.path.join(res_dir, "hmm_vs_classifier_student_test.csv"), index=False)
 
-fig, ax = plt.subplots(1, 3, figsize=(16, 4))
+fig, ax = plt.subplots(1, 3, figsize=(18, 5))
 x = np.arange(len(comp))
 for a, m, t in zip(ax, ("top1", "continuity", "seq_f1"), ("Top-1 accuracy", "Route continuity", "Sequence (route-arc) F1")):
     a.bar(x - 0.2, comp[f"clf_{m}"], 0.4, label="classifier only"); a.bar(x + 0.2, comp[f"hmm_{m}"], 0.4, label="classifier + HMM")
-    a.set_xticks(x); a.set_xticklabels(comp.model, rotation=45, ha="right"); a.set_title(t + " (student test)")
+    a.set_xticks(x); a.set_xticklabels([DISPLAY.get(m, m) for m in comp.model], rotation=40, ha="right", fontsize=8); a.set_title(t + " (student test)")
     a.set_ylim(max(0, min(comp[f"clf_{m}"].min(), comp[f"hmm_{m}"].min()) - 0.05), 1.0); a.legend()
 plt.tight_layout(); plt.savefig(os.path.join(fig_dir, "hmm_vs_classifier.png"), dpi=120); plt.close()
 
-df = pd.read_csv(os.path.join(res_dir, "hmm_per_trip_LightGBM_tuned.csv"))
+df = pd.read_csv(os.path.join(res_dir, f"hmm_per_trip_{FINAL_KEY}.csv"))
 plt.figure(figsize=(9, 4)); x = np.arange(len(df))
 plt.bar(x - 0.2, df.clf_top1, 0.4, label="classifier only"); plt.bar(x + 0.2, df.hmm_top1, 0.4, label="classifier + HMM")
-plt.xticks(x, df.trip_id, rotation=45); plt.ylim(0.6, 1); plt.ylabel("top-1"); plt.title("Per-trip top-1, tuned LightGBM (student test)"); plt.legend()
+plt.xticks(x, df.trip_id, rotation=45); plt.ylim(0.6, 1); plt.ylabel("top-1"); plt.title(f"Per-trip top-1, {DISPLAY[FINAL_KEY]} (student test)"); plt.legend()
 plt.tight_layout(); plt.savefig(os.path.join(fig_dir, "hmm_per_trip.png"), dpi=120); plt.close()

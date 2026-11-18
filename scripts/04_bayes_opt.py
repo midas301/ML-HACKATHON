@@ -22,6 +22,9 @@ cfg = config.load()
 N_TRIALS = int(sys.argv[1]) if len(sys.argv) > 1 else 40
 train = cached("train", cfg["train_dir"], cfg)
 test = cached("student_test", cfg["student_test_dir"], cfg)
+from pathsnap.direction import N_BASE
+for _d in train + test:
+    _d["X"] = _d["X"][:, :N_BASE]
 groups = np.arange(len(train))
 res_dir, fig_dir = cfg["results_dir"], cfg["figures_dir"]
 
@@ -90,15 +93,15 @@ for tag, params in (("untuned", dict(LGBM_DEFAULT)), ("tuned", best)):
     out[tag] = {"cv_top1_mean": s.mean(), "cv_top1_std": s.std(ddof=1), "cv_macro_f1_mean": f1.mean(), "cv_macro_f1_std": f1.std(ddof=1),
                 "cv_log_loss_mean": ll.mean(), **{"test_" + k: v for k, v in r.items()},
                 "train_seconds": tt, "inference_seconds": inf, "inference_ms_per_1k_obs": 1e6 * inf / n_obs}
-    joblib.dump(oof, os.path.join(cfg["artifacts_dir"], f"oof_lgbm_{tag}.joblib"))
+    joblib.dump(oof, os.path.join(cfg["artifacts_dir"], f"oof_lgbm22_{tag}.joblib"))
     if tag == "tuned":
-        joblib.dump(m, os.path.join(cfg["artifacts_dir"], "final_model.joblib"), compress=3)
-        np.save(os.path.join(res_dir, "probs_LightGBM_tuned.npy"), np.concatenate(probs))
-        pd.DataFrame(per_trip).to_csv(os.path.join(res_dir, "student_test_per_trip_LightGBM_tuned.csv"), index=False)
+        joblib.dump(m, os.path.join(cfg["artifacts_dir"], "models", "LightGBM_tuned22.joblib"), compress=3)
+        np.save(os.path.join(res_dir, "probs_LightGBM_tuned22.npy"), np.concatenate(probs))
+        pd.DataFrame(per_trip).to_csv(os.path.join(res_dir, "student_test_per_trip_LightGBM_tuned22.csv"), index=False)
         imp = pd.Series(m.booster_.feature_importance("gain"), index=__import__("pathsnap.candidates", fromlist=["FEATURES"]).FEATURES).sort_values()
-        imp.to_csv(os.path.join(res_dir, "feature_importance_gain.csv"))
+        imp.to_csv(os.path.join(res_dir, "feature_importance_gain_22.csv"))
         imp.plot.barh(figsize=(7, 7)); plt.title("Tuned LightGBM feature importance (gain)"); plt.tight_layout()
-        plt.savefig(os.path.join(fig_dir, "feature_importance.png"), dpi=120); plt.close()
+        plt.savefig(os.path.join(fig_dir, "feature_importance_22.png"), dpi=120); plt.close()
     print(tag, json.dumps({k: round(v, 4) for k, v in out[tag].items()}), flush=True)
 
 out["search"] = {"n_trials": N_TRIALS, "cv_folds_in_search": 3, "objective": "mean GroupKFold(3) observation-level top-1 accuracy",

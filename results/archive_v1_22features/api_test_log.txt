@@ -1,0 +1,18 @@
+2026-11-18 05:52:27,403 INFO model loaded: LGBMClassifier | hmm={'beta': 5.0, 'w_emission': 1.0, 'vmax': 50.0, 'back_tol': 15.0, 'break_penalty': 30.0, 'tuned_on': 'out-of-fold LightGBM probabilities, 40 train trips', 'train_oof_hmm_top1': 0.8969216089991463} | eval_dir=data/student_test
+INFO:     Started server process [1779]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-11-18 05:52:34,159 INFO GET /health from 127.0.0.1 -> 200 in 1 ms
+INFO:     127.0.0.1:35136 - "GET /health HTTP/1.1" 200 OK
+2026-11-18 05:52:34,167 INFO GET /trips from 127.0.0.1 -> 200 in 1 ms
+INFO:     127.0.0.1:35148 - "GET /trips HTTP/1.1" 200 OK
+2026-11-18 05:52:36,847 INFO trip=00000077 points=3911 route_arcs=445 inference=2.58s metrics={'scored_points': 3911, 'total_points': 3911, 'candidate_miss_rate': 0.0028, 'clf_top1_accuracy': 0.7543, 'clf_route_continuity': 0.9371, 'clf_route_precision': 0.7825, 'clf_route_recall': 0.9664, 'clf_route_f1': 0.8648, 'hmm_top1_accuracy': 0.775, 'hmm_route_continuity': 0.9916, 'hmm_route_precision': 0.8862, 'hmm_route_recall': 0.959, 'hmm_route_f1': 0.9211, 'route_length_overlap_recall': 1.0, 'route_length_overlap_precision': 0.9326}
+2026-11-18 05:52:36,866 INFO POST /predict from 127.0.0.1 -> 200 in 2686 ms
+INFO:     127.0.0.1:35162 - "POST /predict HTTP/1.1" 200 OK
+2026-11-18 05:52:36,880 INFO POST /predict from 127.0.0.1 -> 404 in 1 ms
+INFO:     127.0.0.1:35174 - "POST /predict HTTP/1.1" 404 Not Found
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1779]

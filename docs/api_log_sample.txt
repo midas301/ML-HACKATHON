@@ -1,0 +1,10 @@
+2026-11-18 10:57:08,338 INFO model loaded: LGBMClassifier | hmm={'beta': 5.0, 'w_emission': 1.0, 'vmax': 50.0, 'back_tol': 15.0, 'break_penalty': 30.0, 'tuned_on': 'out-of-fold LightGBM_dir_tuned probabilities, 40 train trips', 'train_oof_hmm_top1': 0.9083613719680611} | eval_dir=data/student_test
+2026-11-18 10:57:16,067 INFO GET /info from 127.0.0.1 -> 200 in 80 ms
+INFO:     127.0.0.1:34284 - "GET /info HTTP/1.1" 200 OK
+2026-11-18 10:57:16,963 INFO GET /trips from 127.0.0.1 -> 200 in 10 ms
+INFO:     127.0.0.1:34290 - "GET /trips HTTP/1.1" 200 OK
+2026-11-18 10:57:16,965 INFO GET /info from 127.0.0.1 -> 200 in 9 ms
+INFO:     127.0.0.1:34296 - "GET /info HTTP/1.1" 200 OK
+2026-11-18 10:57:18,041 INFO trip=00000040 points=2995 route_arcs=321 inference=0.98s metrics={'scored_points': 2995, 'total_points': 2995, 'candidate_miss_rate': 0.0, 'clf_top1_accuracy': 0.9676, 'clf_route_continuity': 0.9743, 'clf_route_precision': 0.9193, 'clf_route_recall': 0.9579, 'clf_route_f1': 0.9382, 'hmm_top1_accuracy': 0.982, 'hmm_route_continuity': 0.9957, 'hmm_route_precision': 0.9834, 'hmm_route_recall': 0.9612, 'hmm_route_f1': 0.9722, 'route_length_overlap_recall': 0.9986, 'route_length_overlap_precision': 0.9968}
+2026-11-18 10:57:18,058 INFO POST /predict from 127.0.0.1 -> 200 in 1085 ms
+INFO:     127.0.0.1:34290 - "POST /predict HTTP/1.1" 200 OK

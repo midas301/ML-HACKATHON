@@ -1,0 +1,23 @@
+{
+  "model": "LightGBM tuned (22 features)",
+  "family": "Boosting",
+  "config": "Optuna best params, 22 features",
+  "n_features": 22,
+  "cv_top1_mean": 0.8860562530584085,
+  "cv_top1_std": 0.041947695513597005,
+  "cv_macro_f1_mean": 0.9337582927236717,
+  "cv_macro_f1_std": 0.02521203751379274,
+  "cv_log_loss_mean": 0.09622379135813043,
+  "test_top1": 0.8879422986463179,
+  "test_macro_f1": 0.9339468759138583,
+  "test_macro_precision": 0.9334524622968774,
+  "test_macro_recall": 0.9344431375502761,
+  "test_macro_f1_at_0.5": 0.931032590152463,
+  "test_accuracy_at_0.5": 0.96292201215395,
+  "test_log_loss": 0.09061231870721798,
+  "test_continuity": 0.9401331990619335,
+  "test_seq_f1": 0.8874658169612302,
+  "train_seconds": 46.55322980880737,
+  "inference_seconds": 2.649420738220215,
+  "inference_ms_per_1k_obs": 139.28494274242934
+}

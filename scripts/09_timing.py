@@ -14,6 +14,9 @@ from pathsnap.models import REGISTRY, SEED
 cfg = config.load()
 train = cached("train", cfg["train_dir"], cfg)
 test = cached("student_test", cfg["student_test_dir"], cfg)
+from pathsnap.direction import N_BASE
+for _d in train + test:
+    _d["X"] = _d["X"][:, :N_BASE]
 X = np.vstack([d["X"][d["row_valid"]] for d in train])
 y = np.concatenate([d["y"][d["row_valid"]] for d in train])
 Xt = np.vstack([d["X"] for d in test])

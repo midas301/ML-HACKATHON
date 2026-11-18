@@ -1,0 +1,58 @@
+{
+  "untuned": {
+    "cv_top1_mean": 0.8848202991577023,
+    "cv_top1_std": 0.042449329801403236,
+    "cv_macro_f1_mean": 0.9330131000747907,
+    "cv_macro_f1_std": 0.02549440347973996,
+    "cv_log_loss_mean": 0.09710701175331372,
+    "test_top1": 0.8878900329274029,
+    "test_macro_f1": 0.9339156746270911,
+    "test_macro_precision": 0.9334212965728139,
+    "test_macro_recall": 0.9344119005955375,
+    "test_macro_f1_at_0.5": 0.9268422521050766,
+    "test_accuracy_at_0.5": 0.9606515867656988,
+    "test_log_loss": 0.09391098105039439,
+    "test_continuity": 0.9362396721419728,
+    "test_seq_f1": 0.8840491849003305,
+    "train_seconds": 13.219244480133057,
+    "inference_seconds": 0.7581863403320312,
+    "inference_ms_per_1k_obs": 39.571312125888895
+  },
+  "tuned": {
+    "cv_top1_mean": 0.8860562530584085,
+    "cv_top1_std": 0.041947695513597005,
+    "cv_macro_f1_mean": 0.9337582927236717,
+    "cv_macro_f1_std": 0.02521203751379274,
+    "cv_log_loss_mean": 0.09622379135813043,
+    "test_top1": 0.8879422986463179,
+    "test_macro_f1": 0.9339468759138583,
+    "test_macro_precision": 0.9334524622968774,
+    "test_macro_recall": 0.9344431375502761,
+    "test_macro_f1_at_0.5": 0.931032590152463,
+    "test_accuracy_at_0.5": 0.96292201215395,
+    "test_log_loss": 0.09061231870721798,
+    "test_continuity": 0.9401331990619335,
+    "test_seq_f1": 0.8874658169612302,
+    "train_seconds": 38.752644062042236,
+    "inference_seconds": 2.649420738220215,
+    "inference_ms_per_1k_obs": 138.27874416598198
+  },
+  "search": {
+    "n_trials": 30,
+    "cv_folds_in_search": 3,
+    "objective": "mean GroupKFold(3) observation-level top-1 accuracy",
+    "sampler": "Optuna TPE (seed 42)",
+    "best_value": 0.881729238884888,
+    "best_params": {
+      "n_estimators": 509,
+      "learning_rate": 0.010581979008079393,
+      "num_leaves": 220,
+      "min_child_samples": 10,
+      "subsample": 0.8339911829896094,
+      "colsample_bytree": 0.9403208608800612,
+      "reg_lambda": 1.2729238962385823,
+      "reg_alpha": 0.32704444162196206
+    },
+    "search_seconds": 3611.6769802570343
+  }
+}

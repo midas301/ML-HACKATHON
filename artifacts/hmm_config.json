@@ -1,0 +1,9 @@
+{
+  "beta": 5.0,
+  "w_emission": 1.0,
+  "vmax": 50.0,
+  "back_tol": 15.0,
+  "break_penalty": 30.0,
+  "tuned_on": "out-of-fold LightGBM_dir_tuned probabilities, 40 train trips",
+  "train_oof_hmm_top1": 0.9083613719680611
+}

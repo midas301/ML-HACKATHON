@@ -5,6 +5,7 @@ import joblib
 import numpy as np
 from .data import Trip
 from .candidates import ArcIndex, generate, build_features
+from .direction import direction_features
 from .hmm import RoadGraph, decode, route_from_points
 from .metrics import continuity, sequence_scores
 from .labels import align_route
@@ -25,6 +26,7 @@ class Predictor:
         t0 = time.time()
         cands = generate(trip, ArcIndex(trip), radius=self.cfg["radius"], k=self.cfg["k"])
         X, pid, aid = build_features(trip, cands, radius=self.cfg["radius"])
+        X = np.hstack([X, direction_features(trip, pid, aid)])
         timings["features_s"] = time.time() - t0
         t0 = time.time()
         prob = self.model.predict_proba(X)[:, 1]

@@ -1,0 +1,13 @@
+direction features built in 14s
+X_old fold 1 0.9074
+X_old fold 2 0.9346
+X_old fold 3 0.8547
+X_old fold 4 0.8314
+X_old fold 5 0.9022
+X_old {"n_features": 22, "cv_top1_mean": 0.8861, "cv_top1_std": 0.0419, "cv_macro_f1_mean": 0.9338, "cv_log_loss_mean": 0.0962, "train_oof_hmm_top1_40trips": 0.8969, "test_top1": 0.8879, "test_macro_f1": 0.9339, "test_log_loss": 0.0906, "test_continuity": 0.9401, "test_hmm_top1": 0.9173, "test_hmm_wrong_direction_errors": 898, "test_hmm_top1_by_speed": {"<0.5": 0.5644, "0.5-2": 0.631, "2-5": 0.7476, "5-10": 0.9439, ">10": 0.9942}}
+X_new fold 1 0.9362
+X_new fold 2 0.9484
+X_new fold 3 0.8956
+X_new fold 4 0.8892
+X_new fold 5 0.9336
+X_new {"n_features": 29, "cv_top1_mean": 0.9206, "cv_top1_std": 0.0264, "cv_macro_f1_mean": 0.9546, "cv_log_loss_mean": 0.0747, "train_oof_hmm_top1_40trips": 0.9084, "test_top1": 0.9134, "test_macro_f1": 0.9491, "test_log_loss": 0.0764, "test_continuity": 0.9411, "test_hmm_top1": 0.9379, "test_hmm_wrong_direction_errors": 604, "test_hmm_top1_by_speed": {"<0.5": 0.6626, "0.5-2": 0.7425, "2-5": 0.8162, "5-10": 0.9497, ">10": 0.9943}, "top_features_gain": {"dist_minus_min": 15246120.0, "hd_long": 7369164.0, "cos_long": 4472702.0, "dist_rank": 1737422.0, "along_delta": 1032595.0, "hd_next_fast": 788055.0, "arc_len": 678218.0, "hd_prev_fast": 614816.0, "proj_t": 609960.0, "win_dist": 574401.0}}

@@ -41,6 +41,22 @@ def health():
     return {"status": "ok", "model": type(predictor.model).__name__, "eval_dir": EVAL_DIR}
 
 
+@app.get("/info")
+def info():
+    m = predictor.model
+    params = m.get_params() if hasattr(m, "get_params") else {}
+    keep = ("n_estimators", "learning_rate", "num_leaves", "min_child_samples", "subsample", "colsample_bytree", "reg_lambda", "reg_alpha")
+    return {
+        "model": type(m).__name__,
+        "n_features": int(getattr(m, "n_features_in_", 0)),
+        "hyperparameters": {k: params[k] for k in keep if k in params},
+        "hmm": {k: v for k, v in predictor.hmm.items() if isinstance(v, (int, float))},
+        "candidate_radius_m": cfg["radius"],
+        "max_candidates": cfg["k"],
+        "eval_dir": EVAL_DIR,
+    }
+
+
 @app.get("/trips")
 def trips():
     if not os.path.isdir(EVAL_DIR):
