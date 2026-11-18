@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+data/train
+data/student_test
+data/evaluator_test
+artifacts/cache/
+artifacts/oof_*.joblib
+results/probs_*.npy
+.venv/
+artifacts/models/RandomForest.joblib
